@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-resttemplate-example
+
+
+server:
+  port: 8081
+
+base:
+  endPoint: https://jsonplaceholder.typicode.com
