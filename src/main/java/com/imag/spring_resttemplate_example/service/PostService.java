@@ -4,6 +4,7 @@ package com.imag.spring_resttemplate_example.service;
 import com.imag.spring_resttemplate_example.exception.UserDefinedException;
 import com.imag.spring_resttemplate_example.model.request.PostRequestDTO;
 import com.imag.spring_resttemplate_example.model.response.PostResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class PostService {
 
     @Value("${base.endPoint}")
@@ -23,25 +25,32 @@ public class PostService {
 
     public ResponseEntity<?> getPostById(Long id) {
         try {
-            ResponseEntity<PostResponse> post = restTemplate.getForEntity(baseURL + "/posts/{id}", PostResponse.class, id);
-            if (post.getStatusCode() == HttpStatus.OK)
-                return post;
+            ResponseEntity<PostResponse> postResponse = restTemplate.getForEntity(baseURL + "/posts/{id}", PostResponse.class, id);
+            if (postResponse.getStatusCode() == HttpStatus.OK) {
+                log.info("Data : {}",postResponse.getBody());
+                return ResponseEntity.ok(postResponse.getBody());
+//                return postResponse;
+            }
             else
                 throw new UserDefinedException("Something went wrong...!");
         } catch (RuntimeException ex) {
+            log.error("Exception: {}",ex.getMessage());
             throw new UserDefinedException(ex.getMessage());
         }
-
     }
 
     public ResponseEntity<?> addNewPost(PostRequestDTO postRequestDTO) {
         try {
-            ResponseEntity<PostRequestDTO> postRequest = restTemplate.postForEntity(baseURL + "/posts", postRequestDTO, PostRequestDTO.class);
-            if (postRequest.getStatusCode() == HttpStatus.OK || postRequest.getStatusCode() == HttpStatus.CREATED)
-                return postRequest;
+            ResponseEntity<PostResponse> postResponse = restTemplate.postForEntity(baseURL + "/posts", postRequestDTO, PostResponse.class);
+            if (postResponse.getStatusCode() == HttpStatus.OK || postResponse.getStatusCode() == HttpStatus.CREATED) {
+                log.info("Data : {}",postResponse.getBody());
+                return ResponseEntity.ok(postResponse.getBody());
+//                return postResponse;
+            }
             else
                 throw new UserDefinedException("Something went wrong...!");
         } catch (RuntimeException ex) {
+            log.error("Exception : {}",ex.getMessage());
             throw new UserDefinedException(ex.getMessage());
         }
     }
