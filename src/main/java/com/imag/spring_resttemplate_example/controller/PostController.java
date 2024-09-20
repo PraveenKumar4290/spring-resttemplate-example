@@ -34,10 +34,10 @@ public class PostController {
         return new ResponseEntity<>(methodLevel.getPostById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/get/constructor/{id}")
-    public ResponseEntity<?> getPostByConstructorLevel(@PathVariable Long id) {
-        return new ResponseEntity<>(constructorLevel.getPostById(id), HttpStatus.OK);
-    }
+//    @GetMapping("/get/constructor/{id}")
+//    public ResponseEntity<?> getPostByConstructorLevel(@PathVariable Long id) {
+//        return new ResponseEntity<>(constructorLevel.getPostById(id), HttpStatus.OK);
+//    }
 
 //    @PostMapping("/post")
 //    public ResponseEntity<?> addNewPost(@RequestBody PostRequestDTO postRequestDTO) {

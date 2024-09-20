@@ -13,7 +13,7 @@ public class RefactorMethodLevel {
     private String baseURL;
 
     public PostResponse getPostById(Long id) {
-        final RestTemplate restTemplateNew = new RestTemplate();
-        return restTemplateNew.getForObject(baseURL + "/posts/{id}", PostResponse.class, id);
+        final RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(baseURL + "/posts/{id}", PostResponse.class, id);
     }
 }
