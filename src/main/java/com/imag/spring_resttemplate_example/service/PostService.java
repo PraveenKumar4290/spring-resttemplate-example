@@ -54,6 +54,8 @@ public class PostService {
     protected ResponseEntity<String> restTemplate() throws Exception {
         RequestEntity<?> request =
                 RequestEntity.post(new URI("http://localhost:8080/api"))
+                        .headers(headers->headers.setContentType(MediaType.ALL))
+                        .headers(header -> header.setBearerAuth("yudvwduuwdbwiydwd"))
                         .header("ApplicationConstants.ORGANIZATION_HEADER", String.valueOf(1))
                         .header(API_KEY, "carrierRatesClientConfiguration.getApiKey()")
                         .accept(MediaType.APPLICATION_JSON)
@@ -71,6 +73,11 @@ public class PostService {
         Object carrierRatesRequest = new Object();
         RequestEntity<?> request =
                 RequestEntity.post(new URI(url))
+                        .headers(header->{
+                            header.setBearerAuth("gyufueygwdytwugctyc");
+                            header.setContentType(MediaType.ALL);
+                            header.set("hiiii","helllloooo");
+                        })
                         .header("Authorization", "Bearer " + accessToken)
                         .header("X-Organization-Guid", organizationGuid)
                         .header("API-Key", apiKey)
