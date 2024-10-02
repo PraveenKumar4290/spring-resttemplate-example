@@ -7,6 +7,7 @@ import com.imag.spring_resttemplate_example.model.response.PostResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -51,7 +52,7 @@ public class PostService {
         }
     }
 
-    protected ResponseEntity<String> restTemplate() throws Exception {
+    protected ResponseEntity<String> restTemplate(Long id) throws Exception {
         RequestEntity<?> request =
                 RequestEntity.post(new URI("http://localhost:8080/api"))
                         .headers(headers->headers.setContentType(MediaType.ALL))
@@ -84,6 +85,29 @@ public class PostService {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(carrierRatesRequest);
         newRestTemplate.exchange(new URI(url), HttpMethod.POST, request, Object.class);
+    }
+
+    public void test() throws Exception {
+        String url = "https://example.com";
+        String accessToken = "someAccessToken";
+        String organizationGuid = "someOrg";
+        String apiKey = "someApiKey";
+        Object carrierRatesRequest = new Object();
+        RequestEntity<?> request =
+                RequestEntity.post(new URI(url))
+                        .headers(header->{
+                            header.setBearerAuth("gyufueygwdytwugctyc");
+                            header.setContentType(MediaType.ALL);
+                            header.set("hiiii","helllloooo");
+                        })
+                        .header("Authorization", "Bearer " + accessToken)
+                        .header("X-Organization-Guid", organizationGuid)
+                        .header("API-Key", apiKey)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(carrierRatesRequest);
+        ParameterizedTypeReference<Object> parameterizedTypeReference=new ParameterizedTypeReference<Object>() {
+        };
+        newRestTemplate.exchange(request, parameterizedTypeReference);
     }
 }
 
