@@ -55,7 +55,7 @@ public class PostService {
     protected ResponseEntity<String> restTemplate(Long id) throws Exception {
         RequestEntity<?> request =
                 RequestEntity.post(new URI("http://localhost:8080/api"))
-                        .headers(headers->headers.setContentType(MediaType.ALL))
+                        .headers(headers -> headers.setContentType(MediaType.ALL))
                         .headers(header -> header.setBearerAuth("yudvwduuwdbwiydwd"))
                         .header("ApplicationConstants.ORGANIZATION_HEADER", String.valueOf(1))
                         .header(API_KEY, "carrierRatesClientConfiguration.getApiKey()")
@@ -74,10 +74,10 @@ public class PostService {
         Object carrierRatesRequest = new Object();
         RequestEntity<?> request =
                 RequestEntity.post(new URI(url))
-                        .headers(header->{
+                        .headers(header -> {
                             header.setBearerAuth("gyufueygwdytwugctyc");
                             header.setContentType(MediaType.ALL);
-                            header.set("hiiii","helllloooo");
+                            header.set("hiiii", "helllloooo");
                         })
                         .header("Authorization", "Bearer " + accessToken)
                         .header("X-Organization-Guid", organizationGuid)
@@ -87,7 +87,7 @@ public class PostService {
         newRestTemplate.exchange(new URI(url), HttpMethod.POST, request, Object.class);
     }
 
-    public void test() throws Exception {
+    public void test1() throws Exception {
         String url = "https://example.com";
         String accessToken = "someAccessToken";
         String organizationGuid = "someOrg";
@@ -95,17 +95,62 @@ public class PostService {
         Object carrierRatesRequest = new Object();
         RequestEntity<?> request =
                 RequestEntity.post(new URI(url))
-                        .headers(header->{
+                        .headers(header -> {
                             header.setBearerAuth("gyufueygwdytwugctyc");
                             header.setContentType(MediaType.ALL);
-                            header.set("hiiii","helllloooo");
+                            header.set("hiiii", "helllloooo");
                         })
                         .header("Authorization", "Bearer " + accessToken)
                         .header("X-Organization-Guid", organizationGuid)
                         .header("API-Key", apiKey)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(carrierRatesRequest);
-        ParameterizedTypeReference<Object> parameterizedTypeReference=new ParameterizedTypeReference<Object>() {
+        ParameterizedTypeReference<Object> parameterizedTypeReference = new ParameterizedTypeReference<Object>() {
+        };
+        newRestTemplate.exchange(request, parameterizedTypeReference);
+    }
+
+    public void test2() throws Exception {
+        String url = "https://example.com";
+        String accessToken = "someAccessToken";
+        String organizationGuid = "someOrg";
+        String apiKey = "someApiKey";
+        RequestEntity<?> request =
+                RequestEntity.get(new URI(url))
+                        .headers(header -> {
+                            header.setBearerAuth("gyufueygwdytwugctyc");
+                            header.setContentType(MediaType.ALL);
+                            header.set("hiiii", "helllloooo");
+                        })
+                        .header("Authorization", "Bearer " + accessToken)
+                        .header("X-Organization-Guid", organizationGuid)
+                        .header("API-Key", apiKey)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .build();
+        ParameterizedTypeReference<Object> parameterizedTypeReference = new ParameterizedTypeReference<Object>() {
+        };
+        newRestTemplate.exchange(request, parameterizedTypeReference);
+    }
+
+    public void test3() throws Exception {
+        String url = "https://example.com";
+        String accessToken = "someAccessToken";
+        String organizationGuid = "someOrg";
+        String apiKey = "someApiKey";
+        Object carrierRatesRequest = new Object();
+        RequestEntity<?> request =
+                RequestEntity.put(new URI(url))
+                        .headers(header -> {
+                            header.setBearerAuth("gyufueygwdytwugctyc");
+                            header.setContentType(MediaType.ALL);
+                            header.set("hiiii", "helllloooo");
+                        })
+                        .header("Authorization", "Bearer " + accessToken)
+                        .header("X-Organization-Guid", organizationGuid)
+                        .header("API-Key", apiKey)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .body(carrierRatesRequest);
+        ParameterizedTypeReference<Object> parameterizedTypeReference = new ParameterizedTypeReference<Object>() {
         };
         newRestTemplate.exchange(request, parameterizedTypeReference);
     }
