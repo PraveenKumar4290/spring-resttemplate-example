@@ -26,50 +26,51 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest
 class SpringResttemplateExampleApplicationTests {
 
-	@Autowired
-	private AccountAPIClient accountAPIClient;
-	private static MockWebServer mockWebServer;
+    @Autowired
+    private AccountAPIClient accountAPIClient;
+    private static MockWebServer mockWebServer;
 
-	private RestTemplate restTemplate;
-	private MockRestServiceServer mockServer;
-	private ProfileProperties profileProperties;
-	private ProfileAPIClient profileClient;
-	private String masterdatacrossreferenceURL;
+    private RestTemplate restTemplate;
+    private MockRestServiceServer mockServer;
+    private ProfileProperties profileProperties;
+    private ProfileAPIClient profileClient;
+    private String masterdatacrossreferenceURL;
 
 
-	@BeforeEach
-	public void setUp() {
-		restTemplate = new RestTemplate();
-		mockServer = MockRestServiceServer.createServer(restTemplate);
-		masterdatacrossreferenceURL = "https://masterdatacrossreferenceservices-tst.nonprod.jbhunt.com";
-		profileProperties = new ProfileProperties();
-		profileProperties.setMasterdatacrossreferenceURL(masterdatacrossreferenceURL);
-		profileClient = new ProfileAPIClient(restTemplate, profileProperties);
-	}
+    @BeforeEach
+    public void setUp() {
+        restTemplate = new RestTemplate();
+        mockServer = MockRestServiceServer.createServer(restTemplate);
+        masterdatacrossreferenceURL = "https://masterdatacrossreferenceservices-tst.nonprod.jbhunt.com";
+        profileProperties = new ProfileProperties();
+        profileProperties.setMasterdatacrossreferenceURL(masterdatacrossreferenceURL);
+        profileClient = new ProfileAPIClient(restTemplate, profileProperties);
+        accountAPIClient = new AccountAPIClient(restTemplate);
+    }
 
-	@Test
-	public void fetchAccountInformationTest() {
-		AccountInformationDTO accountInformationDTO = new AccountInformationDTO();
-		accountInformationDTO.setCustomerCode("GECAAK");
-		MockResponse mockResponse = new MockResponse()
-				.setResponseCode(200)
-				.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.setBody("{\"customerCode\":\"GECAAK\"}");
-		mockWebServer.enqueue(mockResponse);
-		AccountInformationDTO response = new AccountInformationDTO();
-		assertNotNull(response);
-	}
+    @Test
+    public void fetchAccountInformationTest() {
+        AccountInformationDTO accountInformationDTO = new AccountInformationDTO();
+        accountInformationDTO.setCustomerCode("GECAAK");
+        MockResponse mockResponse = new MockResponse()
+                .setResponseCode(200)
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .setBody("{\"customerCode\":\"GECAAK\"}");
+        mockWebServer.enqueue(mockResponse);
+        AccountInformationDTO response = accountAPIClient.fetchAccountInformation(123);
+        assertNotNull(response);
+    }
 
-	@Test
-	public void findBusinessSiteIdsByCustomerIdTest() throws Exception {
-		String url = profileProperties.getMasterdatacrossreferenceURL() + "/masterdatacrossreferenceservices/crossreference/fetchcrossreferences/Organization/OrganizationID/1";
-		String response = "[{\"cciEntityFirstColumnName\": \"JBH\"}]";
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
-				.andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
-		List<?> actual = profileClient.findBusinessSiteIdsByCustomerId(1);
-		assertNotNull(actual.stream().findFirst().get());
-		mockServer.verify();
-	}
+    @Test
+    public void findBusinessSiteIdsByCustomerIdTest() throws Exception {
+        String url = profileProperties.getMasterdatacrossreferenceURL() + "/masterdatacrossreferenceservices/crossreference/fetchcrossreferences/Organization/OrganizationID/1";
+        String response = "[{\"cciEntityFirstColumnName\": \"JBH\"}]";
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+        List<?> actual = profileClient.findBusinessSiteIdsByCustomerId(1);
+        assertNotNull(actual.stream().findFirst().get());
+        mockServer.verify();
+    }
 
 
 }
