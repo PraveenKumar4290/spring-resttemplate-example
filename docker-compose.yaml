@@ -1,0 +1,41 @@
+services:
+  database:
+    image: postgres
+    container_name: pg_database
+    volumes:
+      - 'postgresql_data:/var/lib/postgres/data'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+#      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sonarqube_db
+    ports:
+      - '5433:5432'
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - '9000:9000'
+      - '9001:9000'
+    volumes:
+      - 'sonarqube_data:/bitnami/sonarqube'
+    depends_on:
+      - database
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+#      - ALLOW_EMPTY_PASSWORD=yes
+      - SONARQUBE_DATABASE_HOST=database
+      - SONARQUBE_DATABASE_PORT_NUMBER=5432
+      - SONARQUBE_DATABASE_USER=postgres
+      - SONARQUBE_DATABASE_PASSWORD=postgres
+      - SONARQUBE_DATABASE_NAME=sonarqube_db
+      - SONARQUBE_JDBC_USERNAME=postgres
+      - SONARQUBE_JDBC_PASSWORD=postgres
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://database:5432/sonarqube_db
+
+volumes:
+  postgresql_data:
+    driver: local
+  sonarqube_data:
+    driver: local
