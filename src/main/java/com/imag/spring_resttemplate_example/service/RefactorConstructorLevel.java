@@ -155,11 +155,5 @@ public class RefactorConstructorLevel {
         }
     }
 
-
-//    public void hello(PostRequestDTO postRequestDTO, Long id) {
-//        ResponseEntity<String> exchange3 = restTemplate.exchange(baseURL + "/posts/{id}", HttpMethod.DELETE, new HttpEntity<>(new HashMap<>()), String.class,id);
-//        ResponseEntity<String> exchange4 = restTemplate.exchange(baseURL + "/posts/{id}", HttpMethod.DELETE, new HttpEntity<>(new HashMap<>()), String.class);
-//    }
-
 }
 

@@ -54,7 +54,9 @@ public class SpringResttemplateExampleApplication {
         connManager.setMaxPerRoute(new HttpRoute(new HttpHost(profileProperties.getProfileContactServiceHostName())),
                 profileProperties.getProfileClientConnectionMaxTotalPerRoute());
 
-        BasicAuthInterceptor basicAuthInterceptor = new BasicAuthInterceptor("username","password");
+        String username="Praveen";
+        String password = "Praveen@112344";
+        BasicAuthInterceptor basicAuthInterceptor = new BasicAuthInterceptor(username,password);
         restTemplate.getInterceptors().add(basicAuthInterceptor);
 
         final HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
