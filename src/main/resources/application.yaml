@@ -2,9 +2,16 @@ spring:
   application:
     name: spring-resttemplate-example
 
-
 server:
   port: 8081
 
 base:
   endPoint: https://jsonplaceholder.typicode.com
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    disable-swagger-default-url: true
